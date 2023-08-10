@@ -1,0 +1,53 @@
+.chat--page--container{
+    padding: 0;
+    margin: 6.5rem 0 0;
+    box-sizing: 0;
+}
+
+/* Sidebar */
+
+.sidebar--container{
+    display: flex;
+    background: #4d5c64;
+    position: fixed;
+    width: 20rem;
+    height: 100vh;
+    overflow-y: hidden;
+    border-right: solid black;
+
+    & ul{
+        color: #fee1ab;
+        font-size: 18px;
+        padding-top: 8rem;
+        display: flex;
+        flex-direction: column;
+        gap: 5rem;
+        list-style: none;
+        width: 20rem;
+        
+        & li{
+            border-left: 20px solid transparent;
+            cursor: pointer;
+        }
+
+        & li:hover{
+            padding: 0.75rem;
+            border-left: 30px solid #46545c;
+            transition: all 0.25s;
+            transform: translateY(5px);
+            background: #46545c;
+        }
+    }
+}
+
+/* Form */
+
+.form--contanier{
+    margin: 0 1000px;
+    bottom: 0;
+    /* transform: translate(1000px, 100px); */
+    
+    & button{
+        width: 100px;
+    }
+}

@@ -1,0 +1,18 @@
+:root{
+    --LIGHT-BEIGE: #ffdb9f,
+    --BEIGE: #ffd592,
+    --DARK-BEIGE: #ffcf80,
+    --LIGHT-ORANGE: #ffc566,
+    --ORANGE: #ffb640,
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    font-family: 'Lora', serif;
+}
+
+body{
+    background: #3d4c54;
+    overflow: hidden;
+}
