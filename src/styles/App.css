@@ -1,9 +1,9 @@
 :root{
-    --LIGHT-BEIGE: #ffdb9f,
-    --BEIGE: #ffd592,
-    --DARK-BEIGE: #ffcf80,
-    --LIGHT-ORANGE: #ffc566,
-    --ORANGE: #ffb640,
+    --LIGHT-BEIGE: beige;
+    --BEIGE: #ffd592;
+    --DARK-BEIGE: #ffcf80;
+    --LIGHT-ORANGE: #ffc566;
+    --ORANGE: #ffb640;
 }
 
 *{
@@ -14,5 +14,5 @@
 
 body{
     background: #3d4c54;
-    overflow: hidden;
+    overflow-x: hidden;
 }

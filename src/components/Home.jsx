@@ -1,7 +1,20 @@
+import { useState, useEffect } from 'react';
 import '/Users/arsen/Desktop/gpt-replica/src/styles/Home.css';
-import { Link } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
+
+export async function loader(){
+    try {
+        const res = await fetch('http://localhost:8000');
+        const data = res.json();
+        return data;
+    } catch(err) {
+        console.log(err);
+    }
+}
 
 export default function Home() {
+  const data = useLoaderData();
+
   return (
     <div className="home--container">
         <div className='home--catch'>
@@ -25,10 +38,9 @@ export default function Home() {
             of AI that will help with creating your projects.
         </h3>
         <div className="sections">
-            <section>ChatGPT</section>
-            <section>Image Generation</section>
-            <section>Personal Project</section>
-            <section>Community Project</section>
+            {data.map((model, index) => (
+                <section id={index}>{model.name}</section>
+            ))}
         </div>
     </div>
   )
