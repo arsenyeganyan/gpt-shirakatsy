@@ -1,10 +1,11 @@
-import '/Users/arsen/Desktop/gpt-replica/src/styles/Chat.css';
+import '../styles/Chat.css';
 import { useState } from 'react';
 import { 
   Outlet,
   Form,
   NavLink,
   useLoaderData,
+  useParams
 } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare } from '@fortawesome/free-solid-svg-icons';
@@ -21,20 +22,22 @@ export async function loader(){
 
 export default function Chat() {
   const data = useLoaderData();
-  const name = new URL(document.location).searchParams;
+  const { name } = useParams();
   
   const [send, setSend] = useState('');
   
   const sendData = e => {
-    fetch('http://localhost:8000/chat/', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        message: send,
-        // active: name
-      })
+    fetch(name === undefined ? 
+      `http://localhost:8000/chat/` : 
+      `http://localhost:8000/chat/${name}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: send,
+          // active: name
+        })
     })
     .then(res => res.json())
     .then(json => console.log(json))
