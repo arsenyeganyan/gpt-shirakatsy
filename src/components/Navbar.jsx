@@ -1,6 +1,7 @@
 import '../styles/Navbar.css';
 import logo from '/Users/arsen/Desktop/gpt-replica/public/images/1580463135368.jpeg';
 import alikh from '/Users/arsen/Desktop/gpt-replica/public/images/Ashot Alikhanyan.png'
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { NavLink } from 'react-router-dom';
 
 export default function Navbar() {
@@ -10,7 +11,7 @@ export default function Navbar() {
             <img src={alikh} />
             <ul>
                 <li>
-                  Home
+                {/* <FontAwesomeIcon icon={faHouse} /> */}
                 </li>
                 {/* <li>
                   Sign in

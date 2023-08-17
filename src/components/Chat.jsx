@@ -22,21 +22,24 @@ export async function loader(){
 export default function Chat() {
   const data = useLoaderData();
   const name = new URL(document.location).searchParams;
-
+  
   const [send, setSend] = useState('');
   
   const sendData = e => {
-    setSend(e.target.value);
-    fetch('http://localhost:8000/message', {
+    fetch('http://localhost:8000/chat/', {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
         message: send,
-        active: name
+        // active: name
       })
-    });
+    })
+    .then(res => res.json())
+    .then(json => console.log(json))
+    .catch(err => console.log(err))
+    
     setSend('');
     e.preventDefault();
   }
@@ -65,7 +68,7 @@ export default function Chat() {
               type='text'
               placeholder='Send your message'
               name='request'
-              onChange={(e) => setSend(e.target.value)}
+              onChange={e => setSend(e.target.value)}
               value={send}
             />
             <button type='submit'>
