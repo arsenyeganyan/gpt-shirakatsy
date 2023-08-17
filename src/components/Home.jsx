@@ -2,16 +2,6 @@ import { useState, useEffect } from 'react';
 import '/Users/arsen/Desktop/gpt-replica/src/styles/Home.css';
 import { Link, useLoaderData } from 'react-router-dom';
 
-export async function loader(){
-    try {
-        const res = await fetch('http://localhost:8000');
-        const data = res.json();
-        return data;
-    } catch(err) {
-        console.log(err);
-    }
-}
-
 export default function Home() {
   const data = useLoaderData();
 
@@ -38,9 +28,11 @@ export default function Home() {
             of AI that will help with creating your projects.
         </h3>
         <div className="sections">
-            {data.map((model, index) => (
-                <section id={index}>{model.name}</section>
-            ))}
+            {data.map((model, index) => {
+                return model.sections.map((section, index) => (
+                    <section id={index}>{section.name}</section>
+                ))
+            })}
         </div>
     </div>
   )

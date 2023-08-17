@@ -6,7 +6,7 @@ import {
   RouterProvider,
   Routes
 } from 'react-router-dom';
-import { loader } from './components/Home';
+import { loader as chatLoader } from './components/Chat';
 import Navbar from "./components/Navbar";
 import Home from './components/Home';
 import Chat from './components/Chat';
@@ -19,14 +19,14 @@ function App() {
         <Route 
           index 
           element={<Home />}
-          loader={loader}
+          loader={chatLoader}
         />
         <Route 
           path='chat' 
           element={<Chat />}
-          loader={loader}
+          loader={chatLoader}
         >
-          <Route path='response' element={<Response />}/>
+          <Route path=':name' element={<Response />}/>
         </Route>
       </Route>
     )

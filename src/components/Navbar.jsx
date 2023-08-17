@@ -1,7 +1,7 @@
 import '../styles/Navbar.css';
 import logo from '/Users/arsen/Desktop/gpt-replica/public/images/1580463135368.jpeg';
 import alikh from '/Users/arsen/Desktop/gpt-replica/public/images/Ashot Alikhanyan.png'
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 export default function Navbar() {
   return (
@@ -9,12 +9,12 @@ export default function Navbar() {
         <nav>
             <img src={alikh} />
             <ul>
-              <li>
-                Home
-              </li>
-              <li>
-                Sign in
-              </li>
+                <li>
+                  Home
+                </li>
+                {/* <li>
+                  Sign in
+                </li> */}
             </ul>
         </nav>
     </div>
