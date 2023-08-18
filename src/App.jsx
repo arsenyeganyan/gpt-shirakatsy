@@ -16,7 +16,7 @@ function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path='/'>
-        <Route 
+        <Route
           index 
           element={<Home />}
           loader={chatLoader}

@@ -25,6 +25,7 @@ export default function Chat() {
   const { name } = useParams();
   
   const [send, setSend] = useState('');
+  const [req, setReq] = useState();
   
   const sendData = e => {
     fetch(name === undefined ? 
@@ -40,7 +41,7 @@ export default function Chat() {
         })
     })
     .then(res => res.json())
-    .then(json => console.log(json))
+    .then(json => setReq(json))
     .catch(err => console.log(err))
     
     setSend('');
@@ -79,6 +80,7 @@ export default function Chat() {
             </button>
           </Form>
         </div>
+        {req && req.message}
         <Outlet />
     </div>
   )

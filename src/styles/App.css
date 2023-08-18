@@ -4,6 +4,12 @@
     --DARK-BEIGE: #ffcf80;
     --LIGHT-ORANGE: #ffc566;
     --ORANGE: #ffb640;
+    --LIGHT-LIME: #42deb8;
+    --DARK-LIME: #188583;
+    --LIGHT-PINK: #f886a3;
+    --DARK-PINK: #c49cb4;
+    --LIGHT-PURP: #785ea7;
+    --DARK-PURP: #67406f;
 }
 
 *{
@@ -13,6 +19,6 @@
 }
 
 body{
-    background: #3d4c54;
+    background: #c5d3d7;
     overflow-x: hidden;
 }

@@ -8,10 +8,13 @@ export default function Navbar() {
   return (
     <div className='nav--container'>
         <nav>
-            <img src={alikh} />
+            <a href='https://www.facebook.com/ashot.alikhanyan.9'>
+              <img src={alikh} />
+            </a>
             <ul>
                 <li>
                 {/* <FontAwesomeIcon icon={faHouse} /> */}
+                  Home
                 </li>
                 {/* <li>
                   Sign in

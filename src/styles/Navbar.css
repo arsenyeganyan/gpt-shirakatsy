@@ -11,16 +11,21 @@
     z-index: 1;
     top: 0;
     width: 100%;
-    background: #424a50;
-    line-height: 6rem;
-    box-shadow: 5px 5px 5px #818181;
-    color: #ffdb9f;
+    background: #e9faff;
+    
+    box-shadow: 3px 3px 3px #0f5756;
+    color: black;
 
     & img{
         width: 5rem;
         height: 5rem;
         padding: 0.7rem;
         border-radius: 20px;
+        transition: 0.5s;
+
+        &:hover{
+            transform: rotate(-180deg);
+        }
     }
     
     & ul{
@@ -30,13 +35,21 @@
         list-style: none;
         margin-left: auto;
         margin-right: 30px;
-        font-size: 20px;
+        font-size: 23px;
         cursor: pointer;
+        line-height: 6rem;
         
-        & li:hover{
-            transition: 0.5s;
-            color: #ffcf7c;
-            transform: translateY(3px);
+        & li{
+            transition: 0.3s;
+            height: 4.3rem;
+            text-shadow: 2px 2px 2px var(--LIGHT-LIME);
+            
+            &:hover{
+                color: var(--LIGHT-PINK);
+                transform: translateY(-5px);
+                border-bottom: 2.5px solid var(--LIGHT-LIME);
+                text-shadow: none;
+            }
         }
     }
 }
