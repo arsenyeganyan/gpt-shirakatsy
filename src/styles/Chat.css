@@ -50,10 +50,16 @@
 
     & .form{
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
+
+        & .additional--inputs{
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+        }
     }
     
-    & input{
+    & .input--message{
         width: calc(100% - 80rem);
         font-size: 20px;
         padding: 15px;

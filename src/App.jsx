@@ -4,7 +4,6 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   RouterProvider,
-  Routes
 } from 'react-router-dom';
 import { loader as chatLoader } from './components/Chat';
 import Navbar from "./components/Navbar";
@@ -17,7 +16,7 @@ function App() {
     createRoutesFromElements(
       <Route path='/'>
         <Route
-          index 
+          index
           element={<Home />}
           loader={chatLoader}
         />

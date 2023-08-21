@@ -67,7 +67,7 @@
         margin: 120px;
         display: flex;
         flex-direction: row;
-        gap: 8rem;
+        gap: 6rem;
     
         & section{
             font-size: 2rem;
