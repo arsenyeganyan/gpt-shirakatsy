@@ -9,11 +9,11 @@ export default function Home() {
         <div className='home--catch'>
             <div className="intro--container">
                 <h1>
-                    Introducing GPT for Shirakatsy students
+                    Introducing: GPT for Shirakatsy students
                 </h1>
                 <Link to="/chat/" id='home--link'>
                     <button>
-                        Start chatting
+                        Start Creating
                     </button>
                 </Link>
             </div>

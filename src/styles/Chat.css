@@ -46,11 +46,12 @@
 /* Form */
 
 .form--contanier{
-    transform: translate(47rem, 47rem);
+    transform: translate(47rem, 45rem);
 
     & .form{
         display: flex;
-        flex-direction: column;
+        flex-direction: column-reverse;
+        gap: 1rem;
 
         & .additional--inputs{
             display: flex;
