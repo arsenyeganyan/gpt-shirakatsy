@@ -4,6 +4,7 @@ import {
   Outlet,
   Form,
   NavLink,
+  Link,
   useLoaderData,
   useParams
 } from "react-router-dom";
@@ -31,6 +32,7 @@ export default function Chat() {
   const [words, setWords] = useState();
   const [selectLangs, setSelectLangs] = useState();
   const [selectSize, setSelectSize] = useState();
+  const [blob, setBlob] = useState();
 
   //getting supported langs
   useEffect(() => {
@@ -40,51 +42,53 @@ export default function Chat() {
   }, [])
   
   // normal data gathering
-  async function sendData(e) {
-    try {
-      let dataObj = { message: send };
+  function sendData(e) {
+    let dataObj = { message: send };
 
-      switch(name) {
-        case "pptx-creator": 
-          dataObj = { title: send, lang: selectLangs };
-        case "image-generator":
-          dataObj = { title: send, size: selectSize };
-        case "personal-project-tool":
-          dataObj = { title: send, lang: selectLangs };
-        case "text-to-speech":
-          dataObj = { message: send, lang: selectLangs };
-      }
-
-      const res = await fetch(name === undefined ? 
-        'http://localhost:8000/chat/' : 
-        `http://localhost:8000/chat/${name}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(dataObj)
-      })
-
-      if(name === "text-to-speech") {
-        const blob = res.blob()
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'output.mp3');
-        document.body.appendChild(link);
-        link.click();
-      } else {
-        const json = res.json();
-        setReq(json);
-      }
-
-      setSend('');
-      e.preventDefault();
-    } catch(err) {
-      console.log(err);
+    switch(name) {
+      case "pptx-creator": 
+        dataObj = { title: send, lang: selectLangs };
+      case "image-generator":
+        dataObj = { title: send, size: selectSize };
+      case "personal-project-tool":
+        dataObj = { title: send, lang: selectLangs };
+      case "text-to-speech":
+        dataObj = { message: send, lang: selectLangs };
     }
+
+    fetch(name === undefined ? 
+      'http://localhost:8000/chat/' : 
+      `http://localhost:8000/chat/${name}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dataObj)
+      }
+    )
+    .then(res => name === "text-to-speech" || name === "pptx-creator" ? 
+      res.blob() : res.json())
+    .then(json => name === "text-to-speech" || name === "pptx-creator" ? 
+      setBlob(json) : setReq(json))
+    .catch(err => console.log(err))
+
+    setSend('');
+    e.preventDefault();
   }
   
+  if(blob){
+    var download;
+
+    switch(name) {
+      case "pptx-creator":
+        download = "pptx";
+      case "personal-project-tool":
+        download = "docx";
+      case "text-to-speech":
+        download = "mp3"
+    }
+  }
+
   return (
     <div className='chat--page--container'>
         <div className="sidebar--container">
@@ -171,6 +175,11 @@ export default function Chat() {
           </Form>
         </div>
         {req && req.message}
+        {blob && (
+          <a href={window.URL.createObjectURL(blob)} download={`output.${download}`}>
+            Downloadasdl;kasldkasld;ka;ldkal;dkasl;dkalsdka;lskd.a,msda,.sdma,dm
+          </a>
+        )}
         <Outlet context={req}/>
     </div>
   )
