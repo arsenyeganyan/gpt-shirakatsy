@@ -1,6 +1,6 @@
 .chat--page--container{
     padding: 0;
-    margin: 6.5rem 0 0;
+    margin: 4rem 0 0;
     box-sizing: 0;
 }
 
@@ -14,6 +14,7 @@
     height: 100vh;
     overflow-y: hidden;
     border-right: 4px solid black;
+    box-shadow: 4px 0 0 var(--LIGHT-LIME);
 
     & ul{
         font-size: 20px;
@@ -87,5 +88,34 @@
         font-size: 30px;
         cursor: pointer;
         transform: translate(-43px, 2px);
+    }
+
+    .additional--inputs{
+        & select{
+            padding: 8px;
+            background: var(--LIGHT-LIME);
+            font-size: 18px;
+            border: 2px solid;
+            border-radius: 4px;
+        }
+    }
+}
+
+/* Response */
+
+.response--container{
+    margin-left: 45.7rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    background: rgb(156, 156, 156);
+    border: 4px solid;
+    padding: 15px;
+    width: 35%;
+    height: 34rem;
+    box-shadow: 5px 5px 5px var(--LIGHT-LIME);
+
+    & .response{
+        font-size: 20px;
     }
 }

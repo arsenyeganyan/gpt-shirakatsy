@@ -11,7 +11,7 @@ export default function Home() {
                 <h1>
                     Introducing: GPT for Shirakatsy students
                 </h1>
-                <Link to="/chat/" id='home--link'>
+                <Link to="/chat/chat-gpt" id='home--link'>
                     <button>
                         Start Creating
                     </button>
@@ -46,7 +46,7 @@ export default function Home() {
                             "/chat/" + section.name.toLowerCase().split(' ').join('-')}
                         id='home--link'
                     >
-                        <section id={index}>{section.name}</section>
+                        <section key={index}>{section.name}</section>
                     </Link>
                 ))
             })}

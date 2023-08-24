@@ -6,10 +6,10 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import { loader as chatLoader } from './components/Chat';
+import { action as chatAction } from './components/Chat';
 import Navbar from "./components/Navbar";
 import Home from './components/Home';
 import Chat from './components/Chat';
-import Response from './components/Response';
 
 function App() {
   const router = createBrowserRouter(
@@ -20,13 +20,12 @@ function App() {
           element={<Home />}
           loader={chatLoader}
         />
-        <Route 
-          path='chat' 
+        <Route
+          path='chat/:name'
           element={<Chat />}
           loader={chatLoader}
-        >
-          <Route path=':name' element={<Response />}/>
-        </Route>
+          action={chatAction}
+        />
       </Route>
     )
   )

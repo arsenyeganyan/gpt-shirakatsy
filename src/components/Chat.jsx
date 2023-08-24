@@ -1,17 +1,16 @@
 import '../styles/Chat.css';
 import { useEffect, useState } from 'react';
-import { 
-  Outlet,
+import {
   Form,
   NavLink,
-  Link,
   useLoaderData,
-  useParams
+  useParams,
+  useActionData,
 } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare } from '@fortawesome/free-solid-svg-icons';
 
-export async function loader(){
+export async function loader() {
   try {
     const res = await fetch('http://localhost:8000/chat/');
     const data = res.json();
@@ -21,18 +20,56 @@ export async function loader(){
   }
 }
 
+export async function action({ params, request }) {
+  try {
+    const formData = await request.formData();
+
+    const send = formData.get("request");
+    const lang = formData.get("lang");
+    const size = formData.get("img-size");
+
+    var dataObj = { message: send };
+    switch(params.name) {
+      case "pptx-creator": 
+        dataObj = { title: send, lang: lang };
+        break;
+      case "image-generator":
+        dataObj = { title: send, size: size };
+        break;
+      case "personal-project-tool":
+        dataObj = { title: send, lang: lang };
+        break;
+      case "text-to-speech":
+        dataObj = { message: send, lang: lang };
+        break;
+    }
+
+    const res = await fetch(`http://localhost:8000/chat/${params.name}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dataObj)
+      })
+      
+    const result = (
+      params.name === "text-to-speech" || 
+      params.name === "pptx-creator" || 
+      params.name === "personal-project-tool") ? 
+        res.blob() : res.json();
+    
+    return result;
+  } catch(err) {
+    console.log(err);
+  }
+}
+
 export default function Chat() {
-  const data = useLoaderData();
-  const { name } = useParams();
-  
-  const [send, setSend] = useState('');
-  const [req, setReq] = useState();
   const [langs, setLangs] = useState({});
-  const [rate, setRate] = useState();
-  const [words, setWords] = useState();
-  const [selectLangs, setSelectLangs] = useState();
-  const [selectSize, setSelectSize] = useState();
-  const [blob, setBlob] = useState();
+  const { name } = useParams();
+
+  const data = useLoaderData();
+  const result = useActionData();
 
   //getting supported langs
   useEffect(() => {
@@ -40,53 +77,18 @@ export default function Chat() {
     .then(res => res.json())
     .then(json => setLangs(json))
   }, [])
-  
-  // normal data gathering
-  function sendData(e) {
-    let dataObj = { message: send };
 
-    switch(name) {
-      case "pptx-creator": 
-        dataObj = { title: send, lang: selectLangs };
-      case "image-generator":
-        dataObj = { title: send, size: selectSize };
-      case "personal-project-tool":
-        dataObj = { title: send, lang: selectLangs };
-      case "text-to-speech":
-        dataObj = { message: send, lang: selectLangs };
-    }
-
-    fetch(name === undefined ? 
-      'http://localhost:8000/chat/' : 
-      `http://localhost:8000/chat/${name}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(dataObj)
-      }
-    )
-    .then(res => name === "text-to-speech" || name === "pptx-creator" ? 
-      res.blob() : res.json())
-    .then(json => name === "text-to-speech" || name === "pptx-creator" ? 
-      setBlob(json) : setReq(json))
-    .catch(err => console.log(err))
-
-    setSend('');
-    e.preventDefault();
-  }
-  
-  if(blob){
-    var download;
-
-    switch(name) {
-      case "pptx-creator":
-        download = "pptx";
-      case "personal-project-tool":
-        download = "docx";
-      case "text-to-speech":
-        download = "mp3"
-    }
+  var download;
+  switch(name) {
+    case "text-to-speech":
+      download = "mp3";
+      break;
+    case "pptx-creator":
+      download = "pptx";
+      break;
+    case "personal-project-tool":
+      download = "docx";
+      break;
   }
 
   return (
@@ -96,11 +98,10 @@ export default function Chat() {
             {data.map((model, index) => {
               return model.sections.map((section, index) => (
                 <NavLink
-                  to={section.name === "Chat GPT" ?
-                    "." : section.name.toLowerCase().split(' ').join('-')}
+                  to={"/chat/" + section.name.toLowerCase().split(' ').join('-')}
                   end
                   className={({ isActive }) => isActive ? "sec--active" : "sec"}
-                  id={index}
+                  key={index}
                 >
                   <li>{section.name}</li>
                 </NavLink>
@@ -109,15 +110,13 @@ export default function Chat() {
           </ul>
         </div>
         <div className="form--contanier">
-          <Form onSubmit={sendData} className='form'>
+          <Form className='form' method='post'>
             <div className='main--inputs'>
               <input
                 type='text'
                 className='input--message'
                 placeholder="Enter your messsage"
                 name='request'
-                onChange={e => setSend(e.target.value)}
-                value={send}
               />
               <button type='submit'>
                 <FontAwesomeIcon icon={faShare} />
@@ -128,59 +127,61 @@ export default function Chat() {
                 name === "pptx-creator" ||
                 name === "text-to-speech" || 
                 name === "personal-project-tool") && (
-                  <select 
-                    name='lang' 
-                    onChange={e => setSelectLangs(e.target.value)} 
-                    value={selectLangs}
-                  >
+                  <select name='lang'>
                     <option value="">--Select language--</option>
-                    {langs.supported_languages && Object.values(
-                      langs.supported_languages).map((value, index) => (
-                        <option id={index} value={value.toLowerCase()}>
-                          {value.toLowerCase()}
+                    {langs.supported_languages && 
+                      Object.entries(langs.supported_languages).map(([key, value]) => (
+                        <option value={value}>
+                          {key.charAt(0).toUpperCase() + key.slice(1)}
                         </option>
                     ))}
                   </select>
               )}
               {name === "image-generator" && (
-                <select 
-                  name='img-size'
-                  onChange={e => setSelectSize(e.target.value)}
-                  value={selectSize}
-                >
+                <select name='img-size'>
                   <option value="">--Select image size--</option>
                   <option value="1024x1024">1024x1024</option>
                   <option value="256x256">256x256</option>
                   <option value="512x512">512x512</option>
                 </select>
               )}
-              {/* <input 
-                type="number"
-                name='words'
-                className='input--words'
-                onChange={e => setWords(e.target.value)}
-              /> */}
-              {/* {name === "text-to-speech" && (  
-                <input 
-                  type="number" 
-                  name='rate'
-                  placeholder='Provide the rate'
-                  className='input--rate'
-                  onChange={e => setRate(e.target.value)}
-                />
-              )} */}
-
-              {/* {here would be the file input} */}
             </div>
           </Form>
         </div>
-        {req && req.message}
-        {blob && (
-          <a href={window.URL.createObjectURL(blob)} download={`output.${download}`}>
-            Downloadasdl;kasldkasld;ka;ldkal;dkasl;dkalsdka;lskd.a,msda,.sdma,dm
-          </a>
-        )}
-        <Outlet context={req}/>
+        <div className='response--container'>
+          <div className='response'>
+            {(result && name !== "image-generator") && (
+              name === "pptx-creator" ||
+              name === "text-to-speech" ||
+              name === "personal-project-tool" ? (
+                <a href={window.URL.createObjectURL(result)} download={`output.${download}`}>
+                  Download
+                </a>
+              ) : result.message)}
+            {(result && name === "image-generator") && (
+              <img src={result.message}/>
+              )}
+          </div>
+        </div>
+
+
+        {/* <input 
+          type="number"
+          name='words'
+          className='input--words'
+          onChange={e => setWords(e.target.value)}
+        /> */}
+        {/* {name === "text-to-speech" && (  
+          <input 
+            type="number" 
+            name='rate'
+            placeholder='Provide the rate'
+            className='input--rate'
+            onChange={e => setRate(e.target.value)}
+          />
+        )} */}
+        
+        {/* {here would be the file input} */}
     </div>
   )
 }
