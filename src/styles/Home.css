@@ -65,8 +65,8 @@
     
     .sections{
         margin: 120px;
-        display: flex;
-        flex-direction: row;
+        display: grid;
+        grid-template-columns: auto auto auto auto;
         gap: 6rem;
     
         & section{

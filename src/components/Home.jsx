@@ -41,9 +41,7 @@ export default function Home() {
             {data.map((model, index) => {
                 return model.sections.map((section, index) => (
                     <Link 
-                        to={section.name === "Chat GPT" ? 
-                            "/chat/" :
-                            "/chat/" + section.name.toLowerCase().split(' ').join('-')}
+                        to={"/chat/" + section.name.toLowerCase().split(' ').join('-')}
                         id='home--link'
                     >
                         <section key={index}>{section.name}</section>
