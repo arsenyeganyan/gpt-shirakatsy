@@ -137,4 +137,19 @@
     & .response{
         font-size: 20px;
     }
+
+    & .loading--state{
+        margin: 17rem auto;
+        cursor: pointer;
+        font-size: 2rem;
+        background: var(--DARK-PINK);
+        width: fit-content;
+        padding: 8px;
+        border-radius: 8px;
+        transition: .05s;
+
+        &:hover {
+            transform: translateY(10rem);
+        }
+    }
 }

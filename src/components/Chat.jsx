@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare } from '@fortawesome/free-solid-svg-icons';
 
 const blobsArr = [
-  "slideshow-creator", 
+  "slideshow-creator",
   "personal-project-tool",
   "community-project-tool",
   "text-to-speech",
@@ -79,6 +79,7 @@ export async function action({ params, request }) {
 export default function Chat() {
   const { name } = useParams();
 
+  const [loading, setLoading] = useState(false);
   const [langs, setLangs] = useState({});
   const prog = ["C++", "C", "Python", "JavaScript", "Java"];
 
@@ -108,105 +109,111 @@ export default function Chat() {
       break;
   }
 
+  //handling loading state
+  useEffect(() => setLoading(false), [result]);
+
   return (
     <div className='chat--page--container'>
-        <div className="sidebar--container">
-          <ul>
-            {data.map((model, index) => {
-              return model.sections.map((section, index) => (
-                <NavLink
-                  to={"/chat/" + section.name.toLowerCase().split(' ').join('-')}
-                  end
-                  className={({ isActive }) => isActive ? "sec--active" : "sec"}
-                  key={index}
-                >
-                  <li>{section.name}</li>
-                </NavLink>
-              ))
-            })}
-          </ul>
-        </div>
-        <div className='chat--main'>
-
-          <div className="form--contanier">
-            <Form className='form' method='post'>
-              <div className='main--inputs'>
-                <input
-                  type='text'
-                  className='input--message'
-                  placeholder="Enter your messsage"
-                  name='request'
-                  required
-                />
-                <button type='submit'>
-                  <FontAwesomeIcon icon={faShare} />
-                </button>
-              </div>
-              <div className="additional--inputs">
-                {(
-                  name !== "informatics" && ((blobsArr.includes(name) || 
-                    name === "translator" || 
-                    name === "grammar-correction"))) && (
-                      <select name='lang'>
-                        <option value="">--Select language--</option>
-                          {langs.supported_languages &&
-                            Object.entries(langs.supported_languages).map(
-                              ([key, value], index) => (
-                                <option value={value} key={index}>
-                                  {key.charAt(0).toUpperCase() + key.slice(1)}
-                                </option>
-                              )
+      <div className="sidebar--container">
+        <ul>
+          {data.map((model, index) => {
+            return model.sections.map((section, index) => (
+              <NavLink
+                to={"/chat/" + section.name.toLowerCase().split(' ').join('-')}
+                end
+                className={({ isActive }) => isActive ? "sec--active" : "sec"}
+                key={index}
+              >
+                <li>{section.name}</li>
+              </NavLink>
+            ))
+          })}
+        </ul>
+      </div>
+      <div className='chat--main'>
+        <div className="form--contanier">
+          <Form className='form' method='post'>
+            <div className='main--inputs'>
+              <input
+                type='text'
+                className='input--message'
+                placeholder="Enter your messsage"
+                name='request'
+                required
+              />
+              <button type='submit' onClick={() => setLoading(true)}>
+                <FontAwesomeIcon icon={faShare} />
+              </button>
+            </div>
+            <div className="additional--inputs">
+              {(
+                name !== "informatics" && ((blobsArr.includes(name) || 
+                  name === "translator" || 
+                  name === "grammar-correction"))) && (
+                    <select name='lang'>
+                      <option value="">--Select language--</option>
+                        {langs.supported_languages &&
+                          Object.entries(langs.supported_languages).map(
+                            ([key, value], index) => (
+                              <option value={value} key={index}>
+                                {key.charAt(0).toUpperCase() + key.slice(1)}
+                              </option>
                             )
-                          }
-                      </select>
-                    )
-                }
-                {name === "image-generator" && (
-                  <select name='img-size'>
-                    <option value="">--Select image size--</option>
-                    <option value="1024x1024">1024x1024</option>
-                    <option value="256x256">256x256</option>
-                    <option value="512x512">512x512</option>
-                  </select>
-                )}
-                {name === "informatics" && (
-                  <select name="prog-lang">
-                    <option value="">--Select Programming Language--</option>
-                      {prog.map((value, index) => (
-                        <option value={value} key={index}>{value}</option>
-                      ))}
-                  </select>
-                )}
-                {name === "essay-writer" && (
-                  <input 
-                    type="number"
-                    name='words'
-                    min="100"
-                    max="1000"
-                    step="10"
-                    placeholder='--Word count--'
-                    className='input--words'
-                  />
-                )}
-              </div>
-            </Form>
-          </div>
-          <div className='response--container'>
-            <div className='response'>
-              {(result && name !== "image-generator") && (blobsArr.includes(name) ? (
-                <a 
-                  href={window.URL.createObjectURL(result)} 
+                          )
+                        }
+                    </select>
+                  )
+              }
+              {name === "image-generator" && (
+                <select name='img-size'>
+                  <option value="">--Select image size--</option>
+                  <option value="1024x1024">1024x1024</option>
+                  <option value="256x256">256x256</option>
+                  <option value="512x512">512x512</option>
+                </select>
+              )}
+              {name === "informatics" && (
+                <select name="prog-lang">
+                  <option value="">--Select Programming Language--</option>
+                    {prog.map((value, index) => (
+                      <option value={value} key={index}>{value}</option>
+                    ))}
+                </select>
+              )}
+              {name === "essay-writer" && (
+                <input 
+                  type="number"
+                  name='words'
+                  min="100"
+                  max="1000"
+                  step="10"
+                  placeholder='--Word count--'
+                  className='input--words'
+                />
+              )}
+            </div>
+          </Form>
+        </div>
+        <div className='response--container'>
+          <div className='response'>
+            {
+              (result && name !== "image-generator" && !loading)
+              && (blobsArr.includes(name) ? (
+                <a
+                  href={window.URL.createObjectURL(result)}
                   download={`output.${download}`}
                 >
                   Download
                 </a>
-              ) : result.message)}
-              {(result && name === "image-generator") && (
-                <img src={result.message}/>
-              )}
-            </div>
+              ) : result.message)
+              }
+            {(result && name === "image-generator") && (
+              <img src={result.message}/>
+            )}
+            {loading && (<div className='loading--state'>{"Get your data :)"}</div>)}
           </div>
         </div>
+      </div>
     </div>
   )
 }
