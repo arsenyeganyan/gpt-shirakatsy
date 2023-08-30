@@ -125,7 +125,7 @@
 /* Response */
 
 .response--container{
-    margin-top: 8rem;
+    margin-top: 9rem;
     background: #99bbbb;
     border: 4px solid;
     padding: 15px;
@@ -133,23 +133,26 @@
     height: 38rem;
     box-shadow: 5px 5px 5px var(--LIGHT-LIME);
     overflow-y: auto;
-
+    
     & .response{
         font-size: 20px;
+
+        & span{
+            border: .1rem solid var(--DARK-LIME);
+            animation: caret 1s steps(1) infinite;
+        }
     }
+}
 
     & .loading--state{
-        margin: 17rem auto;
-        cursor: pointer;
-        font-size: 2rem;
-        background: var(--DARK-PINK);
-        width: fit-content;
-        padding: 8px;
-        border-radius: 8px;
-        transition: .05s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10rem;
+}
 
-        &:hover {
-            transform: translateY(10rem);
-        }
+@keyframes caret {
+    50% {
+        border-color: transparent;
     }
 }

@@ -6,9 +6,11 @@ import {
   useLoaderData,
   useParams,
   useActionData,
+  Outlet,
 } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare } from '@fortawesome/free-solid-svg-icons';
+import CanvasLoader from './CanvasLoader';
 
 const blobsArr = [
   "slideshow-creator",
@@ -82,6 +84,7 @@ export default function Chat() {
   const [loading, setLoading] = useState(false);
   const [langs, setLangs] = useState({});
   const prog = ["C++", "C", "Python", "JavaScript", "Java"];
+  const [displayText, setDisplayText] = useState('');
 
   const data = useLoaderData();
   const result = useActionData();
@@ -109,8 +112,24 @@ export default function Chat() {
       break;
   }
 
-  //handling loading state
-  useEffect(() => setLoading(false), [result]);
+  //handling loading state and multiline animations
+  useEffect(() => {
+    setLoading(false);
+
+    if(result && (blobsArr.includes(name) === false) && (name !== "image-generator")) {
+      function typeWriter(text, i) {
+        if(i < text.length) {
+          setDisplayText(text.substring(0, i + 1));
+          setTimeout(() => {
+            typeWriter(text, i + 1);
+          }, 30);
+        }
+      }
+
+      typeWriter(result.message, 0);
+    }
+    
+  }, [result])
 
   return (
     <div className='chat--page--container'>
@@ -167,7 +186,6 @@ export default function Chat() {
               {name === "image-generator" && (
                 <select name='img-size'>
                   <option value="">--Select image size--</option>
-                  <option value="1024x1024">1024x1024</option>
                   <option value="256x256">256x256</option>
                   <option value="512x512">512x512</option>
                 </select>
@@ -195,22 +213,13 @@ export default function Chat() {
           </Form>
         </div>
         <div className='response--container'>
-          <div className='response'>
-            {
-              (result && name !== "image-generator" && !loading)
-              && (blobsArr.includes(name) ? (
-                <a
-                  href={window.URL.createObjectURL(result)}
-                  download={`output.${download}`}
-                >
-                  Download
-                </a>
-              ) : result.message)
-              }
-            {(result && name === "image-generator") && (
-              <img src={result.message}/>
-            )}
-            {loading && (<div className='loading--state'>{"Get your data :)"}</div>)}
+          {loading && (
+            <div className='loading--state'>
+              <CanvasLoader />
+            </div>
+          )}
+          <div className={loading ? "" : "response"}>
+            {(result && !loading) && <Outlet context={{ result, displayText, blobsArr }}/>}
           </div>
         </div>
       </div>

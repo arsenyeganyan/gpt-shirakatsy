@@ -10,6 +10,7 @@ import { action as chatAction } from './components/Chat';
 import Navbar from "./components/Navbar";
 import Home from './components/Home';
 import Chat from './components/Chat';
+import Response from './components/Response';
 
 function App() {
   const router = createBrowserRouter(
@@ -25,7 +26,9 @@ function App() {
           element={<Chat />}
           loader={chatLoader}
           action={chatAction}
-        />
+        >
+          <Route index element={<Response />}/>
+        </Route>
       </Route>
     )
   )
