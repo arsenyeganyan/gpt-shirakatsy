@@ -3,8 +3,13 @@ import '../styles/Chat.css';
 import React from 'react'
 
 export default function Response() {
-  const { name } = useParams();
-  const { result, displayText, blobsArr } = useOutletContext();
+  const { 
+    name, 
+    result, 
+    displayText, 
+    blobsArr, 
+    download
+  } = useOutletContext();
 
   return (
     <div>

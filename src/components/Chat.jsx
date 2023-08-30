@@ -1,5 +1,5 @@
 import '../styles/Chat.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Form,
   NavLink,
@@ -81,9 +81,9 @@ export async function action({ params, request }) {
 export default function Chat() {
   const { name } = useParams();
 
-  const [loading, setLoading] = useState(false);
-  const [langs, setLangs] = useState({});
   const prog = ["C++", "C", "Python", "JavaScript", "Java"];
+  const [langs, setLangs] = useState({});
+  const [loading, setLoading] = useState(false);
   const [displayText, setDisplayText] = useState('');
 
   const data = useLoaderData();
@@ -128,7 +128,6 @@ export default function Chat() {
 
       typeWriter(result.message, 0);
     }
-    
   }, [result])
 
   return (
@@ -219,7 +218,7 @@ export default function Chat() {
             </div>
           )}
           <div className={loading ? "" : "response"}>
-            {(result && !loading) && <Outlet context={{ result, displayText, blobsArr }}/>}
+            {(result && !loading) && <Outlet context={{ name, result, displayText, blobsArr, download }}/>}
           </div>
         </div>
       </div>
