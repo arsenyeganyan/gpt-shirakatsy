@@ -1,4 +1,4 @@
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import '../styles/Chat.css';
 import React from 'react'
 
@@ -21,8 +21,7 @@ export default function Response() {
           >
             Download the file by clicking on the icon
           </a>
-        ) : 
-        (
+        ) : (
           <>
             {displayText}
             <span aria-hidden="true"></span>

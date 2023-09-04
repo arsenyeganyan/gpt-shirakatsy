@@ -1,5 +1,5 @@
 import '../styles/Chat.css';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Form,
   NavLink,
@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare } from '@fortawesome/free-solid-svg-icons';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 import CanvasLoader from './CanvasLoader';
 
 const blobsArr = [
@@ -85,6 +86,7 @@ export default function Chat() {
   const [langs, setLangs] = useState({});
   const [loading, setLoading] = useState(false);
   const [displayText, setDisplayText] = useState('');
+  const [check, setCheck] = useState(false);
 
   const data = useLoaderData();
   const result = useActionData();
@@ -132,21 +134,26 @@ export default function Chat() {
 
   return (
     <div className='chat--page--container'>
-      <div className="sidebar--container">
-        <ul>
-          {data.map((model, index) => {
-            return model.sections.map((section, index) => (
-              <NavLink
-                to={"/chat/" + section.name.toLowerCase().split(' ').join('-')}
-                end
-                className={({ isActive }) => isActive ? "sec--active" : "sec"}
-                key={index}
-              >
-                <li>{section.name}</li>
-              </NavLink>
-            ))
-          })}
-        </ul>
+      <div className='hamburger--container'>
+        <button onClick={() => setCheck(!check)} className={check ? 'hb--checked' : 'hb--check'}>
+          <FontAwesomeIcon icon={faBars} />
+        </button>
+        <div className={check ? "sidebar--minimize" : "sidebar--container"}>
+          <ul>
+            {data.map((model, index) => {
+              return model.sections.map((section, index) => (
+                <NavLink
+                  to={"/chat/" + section.name.toLowerCase().split(' ').join('-')}
+                  end
+                  className={({ isActive }) => isActive ? "sec--active" : "sec"}
+                  key={index}
+                >
+                  <li>{section.name}</li>
+                </NavLink>
+              ))
+            })}
+          </ul>
+        </div>
       </div>
       <div className='chat--main'>
         <div className="form--contanier">
@@ -165,7 +172,7 @@ export default function Chat() {
             </div>
             <div className="additional--inputs">
               {(
-                name !== "informatics" && ((blobsArr.includes(name) || 
+                name !== "informatics" && ((blobsArr.includes(name) ||
                   name === "translator" || 
                   name === "grammar-correction"))) && (
                     <select name='lang'>
@@ -218,7 +225,9 @@ export default function Chat() {
             </div>
           )}
           <div className={loading ? "" : "response"}>
-            {(result && !loading) && <Outlet context={{ name, result, displayText, blobsArr, download }}/>}
+            {(result && !loading) && 
+              <Outlet context={{ name, result, displayText, blobsArr, download }}/>
+            }
           </div>
         </div>
       </div>
