@@ -42,7 +42,7 @@ export async function action({ params, request }) {
     const size = formData.get("img-size");
     const words = formData.get("words");
 
-    var dataObj = { message: send };
+    var dataObj;
     switch(params.name) {
       case "slideshow-creator":
       case "personal-project-tool":
@@ -62,6 +62,8 @@ export async function action({ params, request }) {
       case "essay-writer":
         dataObj = { title: send, words: words, lang: lang };
         break;
+      default:
+        dataObj = { message: send };
     }
 
     const res = await fetch(`http://localhost:8000/chat/${params.name}`, {
@@ -70,7 +72,7 @@ export async function action({ params, request }) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(dataObj)
-    })
+    });
       
     const result = blobsArr.includes(params.name) ? res.blob() : res.json();
     return result;
@@ -135,7 +137,10 @@ export default function Chat() {
   return (
     <div className='chat--page--container'>
       <div className='hamburger--container'>
-        <button onClick={() => setCheck(!check)} className={check ? 'hb--checked' : 'hb--check'}>
+        <button 
+          onClick={() => setCheck(!check)} 
+          className={check ? 'hb--checked' : 'hb--check'}
+        >
           <FontAwesomeIcon icon={faBars} />
         </button>
         <div className={check ? "sidebar--minimize" : "sidebar--container"}>
@@ -156,7 +161,7 @@ export default function Chat() {
         </div>
       </div>
       <div className='chat--main'>
-        <div className="form--contanier">
+        <div className="form--container">
           <Form className='form' method='post'>
             <div className='main--inputs'>
               <input
@@ -199,13 +204,13 @@ export default function Chat() {
               {name === "informatics" && (
                 <select name="prog-lang">
                   <option value="">--Select Programming Language--</option>
-                    {prog.map((value, index) => (
-                      <option value={value} key={index}>{value}</option>
-                    ))}
+                  {prog.map((value, index) => (
+                    <option value={value} key={index}>{value}</option>
+                  ))}
                 </select>
               )}
               {name === "essay-writer" && (
-                <input 
+                <input
                   type="number"
                   name='words'
                   min="100"

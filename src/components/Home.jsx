@@ -18,7 +18,7 @@ export default function Home() {
                 </Link>
             </div>
             <p>
-                Hi! We are two developers from your school who
+                Hi! We are developers from your school who
                 are on a journey to become better at their profession.
                 We both specialize in web development. If you have found this website, 
                 then you probably know who we are. For the sake of our safety 

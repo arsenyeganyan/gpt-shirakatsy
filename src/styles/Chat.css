@@ -29,6 +29,10 @@
         list-style: none;
         width: 20rem;
 
+        &:last-child{
+            padding-bottom: 5rem;
+        }
+
         & .sec, .sec--active{
             text-decoration: none;
             color: black;
@@ -61,7 +65,7 @@
 
 /* Form */
 
-.form--contanier{
+.form--container{
     margin-left: .3rem;
 
     & .form{
@@ -75,6 +79,7 @@
             gap: 2rem;
         }
     }
+
     & .input--message, .input--words{
         font-size: 20px;
         border: none;
@@ -162,13 +167,60 @@
     }
 }
 
+@media (max-width: 1600px) {
+    .response--container{
+        & .loading--state{
+            margin-top: 6rem;
+        }
+    
+        & .response{
+            font-size: 17px;
+    
+            & .link--container{
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    }
+    
+    .chat--main{
+        margin-left: 37rem;
+    }
+    
+    .form--contanier{
+        & .input--message{
+            font-size: 18px;
+        }
+    }
+    
+    .sidebar--container{
+        width: 17rem;
+        
+        & ul{
+            font-size: 15px;
+        }
+    }
+}
+
+@media (max-width: 1600px) and (max-height: 875px) {
+    .response--container{
+        height: 28rem;
+    }
+}
+
 @media(max-width: 1150px) {
+    .hamburger--container{
+        display: flex;
+        flex-direction: column;
+    }
+
     .hb--check, .hb--checked{
         display: block !important;
-        padding-top: 6.5em;
+        position: fixed;
+        margin-top: 2.6em;
         width: fit-content;
         height: fit-content;
-        font-size: 2rem;
         color: var(--DARK-PINK);
         background: transparent;
         width: 15.25rem;
@@ -176,8 +228,7 @@
         border: none;
         padding: 10px;
         cursor: pointer;
-        position: sticky;
-        position: fixed;
+        font-size: 40px;
     }
     
     .hb--checked{
@@ -191,15 +242,20 @@
     }
 
     .chat--main{
-        margin-left: 15rem;
+        margin-left: 14rem;
     }
 
     .response--container{
         width: 60%;
     }
 
+    .input--message{
+        width: 60% !important;
+    }
+
     .sidebar--minimize{
         width: 15rem;
+        margin-top: 10.5rem;
 
         & ul{
             padding-top: 0;
@@ -216,6 +272,33 @@
             & .sec--active{
                 padding: 0.9rem;
             }
+
+            &:last-child{
+                padding-bottom: 30rem;
+            }
         }
+    }
+}
+
+@media (max-width: 650px) {
+    .chat--main{
+        margin-left: 6rem;
+
+        & .response--container{
+            width: 70%;
+        }
+
+        .input--message{
+            width: 70% !important;
+            font-size: 16px;
+        }
+
+        .form--container button{
+            transform: translate(-43px, 4px);
+        }
+    }
+
+    .response div{
+        font-size: 14px;
     }
 }
