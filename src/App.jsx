@@ -11,11 +11,12 @@ import Navbar from "./components/Navbar";
 import Home from './components/Home';
 import Chat from './components/Chat';
 import Response from './components/Response';
+import ErrorBoundary from './components/ErrorBoundary';
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path='/'>
+      <Route path='/' errorElement={<ErrorBoundary />}>
         <Route
           index
           element={<Home />}

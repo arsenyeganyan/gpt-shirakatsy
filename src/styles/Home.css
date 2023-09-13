@@ -116,3 +116,15 @@
         gap: 5rem;
     }
 }
+
+/* Error Boundary */
+
+.error--container{
+    margin: 20rem auto !important;  
+    width: fit-content;
+    max-width: 80%;
+    background: var(--DARK-PINK);
+    font-size: 30px;
+    padding: 2rem;
+    border-radius: 6px;
+}
