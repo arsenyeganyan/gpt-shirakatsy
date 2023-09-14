@@ -10,7 +10,7 @@ export default function Response() {
     name, 
     result, 
     displayText, 
-    blobsArr, 
+    BLOBS_ARR, 
     download
   } = useOutletContext();
 
@@ -30,7 +30,7 @@ export default function Response() {
   return (
     <div>
       {(name !== "image-generator") &&
-        (blobsArr.includes(name) ? (
+        (BLOBS_ARR.includes(name) ? (
           <div className='link--container'>
             <a
               href={window.URL.createObjectURL(result)}

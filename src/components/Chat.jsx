@@ -13,7 +13,7 @@ import { faShare } from '@fortawesome/free-solid-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import CanvasLoader from './CanvasLoader';
 
-const blobsArr = [
+const BLOBS_ARR = [
   "slideshow-creator",
   "personal-project-tool",
   "community-project-tool",
@@ -74,7 +74,7 @@ export async function action({ params, request }) {
       body: JSON.stringify(dataObj)
     });
       
-    const result = blobsArr.includes(params.name) ? res.blob() : res.json();
+    const result = BLOBS_ARR.includes(params.name) ? res.blob() : res.json();
     return result;
   } catch(err) {
     console.log(err);
@@ -120,7 +120,7 @@ export default function Chat() {
   useEffect(() => {
     setLoading(false);
 
-    if(result && (blobsArr.includes(name) === false) && (name !== "image-generator")) {
+    if(result && (BLOBS_ARR.includes(name) === false) && (name !== "image-generator")) {
       function typeWriter(text, i) {
         if(i < text.length) {
           setDisplayText(text.substring(0, i + 1));
@@ -177,7 +177,7 @@ export default function Chat() {
             </div>
             <div className="additional--inputs">
               {(
-                name !== "informatics" && ((blobsArr.includes(name) ||
+                name !== "informatics" && ((BLOBS_ARR.includes(name) ||
                   name === "translator" || 
                   name === "grammar-correction"))) && (
                     <select name='lang'>
@@ -231,7 +231,7 @@ export default function Chat() {
           )}
           <div className={loading ? "" : "response"}>
             {(result && !loading) && 
-              <Outlet context={{ name, result, displayText, blobsArr, download }}/>
+              <Outlet context={{ name, result, displayText, BLOBS_ARR, download }}/>
             }
           </div>
         </div>

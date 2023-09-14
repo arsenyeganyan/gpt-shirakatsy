@@ -170,14 +170,15 @@
 @media (max-height: 875px) {
     .response--container{
         height: 28rem;
+
+        & .loading--state{
+            margin-top: 6rem;
+        }
     }
 }
 
 @media (max-width: 1600px) {
     .response--container{
-        & .loading--state{
-            margin-top: 6rem;
-        }
     
         & .response{
             font-size: 17px;
@@ -327,5 +328,15 @@
             width: 80% !important;
         }
     }
+}
 
+@media (max-height: 587px) {
+    .response--container{
+        height: 15rem;
+    }
+
+    .input--message{
+        font-size: 13px !important;
+        padding: 12px;
+    }
 }
