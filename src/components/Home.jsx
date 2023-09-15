@@ -33,7 +33,7 @@ export default function Home() {
             </h2>
             <h3>
                 Powered by the latest technology of 
-                GPT-3.5, this website gives you access for the powerful knowledge 
+                GPT-3.5, this website gives you access to the powerful knowledge 
                 of AI that will help with creating your projects.
             </h3>
         </div>

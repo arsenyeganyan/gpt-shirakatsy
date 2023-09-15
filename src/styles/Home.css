@@ -163,6 +163,12 @@
     }
 }
 
+@media (max-width: 1440px) {
+    .sections section{
+        font-size: 20px !important;
+    }
+}
+
 @media (max-width: 581px) {
     .error--container{
         margin-top: 10rem !important;
@@ -219,11 +225,6 @@
 @media (max-width: 1254px) {
     .sections{
         grid-template-columns: auto auto !important;
-
-        section{
-            font-size: 1.2rem !important;
-            
-        }
     }
 }
 
