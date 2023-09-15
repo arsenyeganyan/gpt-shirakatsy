@@ -1,4 +1,4 @@
-import '/Users/arsen/Desktop/gpt-replica/src/styles/Home.css';
+import '../styles/Home.css';
 import { Link, useLoaderData } from 'react-router-dom';
 
 export default function Home() {
