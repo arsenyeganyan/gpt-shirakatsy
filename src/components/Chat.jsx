@@ -120,7 +120,7 @@ export default function Chat() {
   useEffect(() => {
     setLoading(false);
 
-    if(result && (BLOBS_ARR.includes(name) === false) && (name !== "image-generator")) {
+    if(result && (BLOBS_ARR.includes(name) === false) && name !== "image-generator") {
       function typeWriter(text, i) {
         if(i < text.length) {
           setDisplayText(text.substring(0, i + 1));
@@ -129,7 +129,6 @@ export default function Chat() {
           }, 30);
         }
       }
-
       typeWriter(result.message, 0);
     }
   }, [result])
@@ -199,6 +198,7 @@ export default function Chat() {
                   <option value="">--Select image size--</option>
                   <option value="256x256">256x256</option>
                   <option value="512x512">512x512</option>
+                  <option value="1024x1024">1024x1024</option>
                 </select>
               )}
               {name === "informatics" && (

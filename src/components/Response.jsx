@@ -29,26 +29,26 @@ export default function Response() {
 
   return (
     <div>
-      {(name !== "image-generator") &&
-        (BLOBS_ARR.includes(name) ? (
-          <div className='link--container'>
-            <a
-              href={window.URL.createObjectURL(result)}
-              download={`output.${download}`}
-            >
-              <FontAwesomeIcon icon={icon} style={{fontSize: '50px', color: 'black'}}/>
-            </a>
-            Click on the icon to download file.
-          </div>
-        ) : (
-          <>
-            {displayText}
-            <span aria-hidden="true"></span>
-          </>
-        )
-      )}
-      {(name === "image-generator") && (
-        <img src={result.message}/>
+      {(BLOBS_ARR.includes(name) ? (
+        <div className='link--container'>
+          <a
+            href={window.URL.createObjectURL(result)}
+            download={`output.${download}`}
+          >
+            <FontAwesomeIcon icon={icon} style={{fontSize: '50px', color: 'black'}}/>
+          </a>
+          Click on the icon to download file.
+        </div>
+      ) : name === "image-generator" ? (
+            <div>
+              Get your image by following the <a className='image--link' target='_blank' href={result.message}>link</a>.
+            </div>
+          ) : (
+            <>
+              {displayText}
+              <span aria-hidden="true"></span>
+            </>
+          )
       )}
     </div>
   )

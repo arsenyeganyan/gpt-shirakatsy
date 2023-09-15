@@ -151,6 +151,10 @@
             border: .1rem solid var(--DARK-LIME);
             animation: caret 1s steps(1) infinite;
         }
+
+        .image--link{
+            color: var(--DARK-LIME);
+        }
     }
 }
 

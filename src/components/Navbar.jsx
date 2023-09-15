@@ -1,6 +1,6 @@
 import '../styles/Navbar.css';
-import logo from '/Users/arsen/Desktop/gpt-replica/public/images/1580463135368.jpeg';
-import alikh from '/Users/arsen/Desktop/gpt-replica/public/images/Ashot Alikhanyan.png'
+import alikh from '/Users/arsen/Desktop/gpt-replica/public/images/Ashot Alikhanyan.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { NavLink } from 'react-router-dom';
 
@@ -13,12 +13,13 @@ export default function Navbar() {
             </a>
             <ul>
                 <li>
-                {/* <FontAwesomeIcon icon={faHouse} /> */}
-                  Home
+                  <NavLink 
+                    to='/'
+                    className={({ isActive }) => isActive ? "nav--active" : "nav--passive"}
+                  >
+                    <FontAwesomeIcon icon={faHouse} id='home--icon'/>
+                  </NavLink>
                 </li>
-                {/* <li>
-                  Sign in
-                </li> */}
             </ul>
         </nav>
     </div>

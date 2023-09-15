@@ -4,6 +4,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   RouterProvider,
+  Outlet,
 } from 'react-router-dom';
 import { loader as chatLoader } from './components/Chat';
 import { action as chatAction } from './components/Chat';
@@ -17,18 +18,20 @@ function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path='/' errorElement={<ErrorBoundary />}>
-        <Route
-          index
-          element={<Home />}
-          loader={chatLoader}
-        />
-        <Route
-          path='chat/:name'
-          element={<Chat />}
-          loader={chatLoader}
-          action={chatAction}
-        >
-          <Route index element={<Response />}/>
+        <Route element={(<><Navbar /><Outlet /></>)}>
+          <Route
+            index
+            element={<Home />}
+            loader={chatLoader}
+          />
+          <Route
+            path='chat/:name'
+            element={<Chat />}
+            loader={chatLoader}
+            action={chatAction}
+          >
+            <Route index element={<Response />}/>
+          </Route>
         </Route>
       </Route>
     )
@@ -36,7 +39,6 @@ function App() {
     
   return (
     <div className="App">
-      <Navbar />
       <RouterProvider router={router}/>
     </div>
   )
