@@ -47,9 +47,6 @@ export async function action({ params, request }) {
       case "slideshow-creator":
       case "personal-project-tool":
       case "community-project-tool":
-      case "informatics":
-        dataObj = { title: send, lang: lang };
-        break;
       case "image-generator":
         dataObj = { title: send, size: size };
         break;
