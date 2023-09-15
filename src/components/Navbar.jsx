@@ -1,5 +1,5 @@
 import '../styles/Navbar.css';
-import alikh from '/Users/arsen/Desktop/gpt-replica/public/images/Ashot Alikhanyan.png';
+import alikh from '/images/Ashot Alikhanyan.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { NavLink } from 'react-router-dom';
