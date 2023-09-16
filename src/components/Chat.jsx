@@ -22,16 +22,6 @@ const BLOBS_ARR = [
   "informatics"
 ];
 
-export async function loader() {
-  try {
-    const res = await fetch('http://localhost:8000/chat/');
-    const data = res.json();
-    return data;
-  } catch(err) {
-    console.log(err);
-  }
-}
-
 export async function action({ params, request }) {
   try {
     const formData = await request.formData();
@@ -63,7 +53,7 @@ export async function action({ params, request }) {
         dataObj = { message: send };
     }
 
-    const res = await fetch(`http://localhost:8000/chat/${params.name}`, {
+    const res = await fetch(`https://shirgpt-87dc8f68f3b6.herokuapp.com/chat/${params.name}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

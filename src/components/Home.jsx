@@ -1,6 +1,16 @@
 import '../styles/Home.css';
 import { Link, useLoaderData } from 'react-router-dom';
 
+export async function loader() {
+  try {
+      const res = await fetch('https://shirgpt-87dc8f68f3b6.herokuapp.com/chat/');
+      const data = res.json();
+      return data;
+  } catch(err) {
+      console.log(err);
+  }
+}
+
 export default function Home() {
   const data = useLoaderData();
 
@@ -20,7 +30,7 @@ export default function Home() {
             <p>
                 Hi! We are developers from your school who
                 are on a journey to become better at their profession.
-                We both specialize in web development. If you have found this website, 
+                We specialize in web development. If you have found this website, 
                 then you probably know who we are. For the sake of our safety 
                 we encourage you to keep our identities private. Thank you.
             </p>

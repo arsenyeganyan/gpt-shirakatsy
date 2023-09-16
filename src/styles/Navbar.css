@@ -18,9 +18,10 @@
 
     & img{
         width: 5rem;
-        height: 5rem;
-        padding: 0.7rem;
-        border-radius: 20px;
+        height: 4.7rem;
+        padding: 0.5rem 0 ;
+        margin-left: 10px;
+        border-radius: 10px;
         transition: 0.5s;
 
         &:hover{
@@ -34,10 +35,10 @@
         gap: 3rem;
         list-style: none;
         margin-left: auto;
-        margin-right: 30px;
+        margin-right: 20px;
         font-size: 23px;
         cursor: pointer;
-        line-height: 6.5rem;
+        line-height: 6rem;
         
         & li{
             

@@ -6,18 +6,18 @@ import {
   RouterProvider,
   Outlet,
 } from 'react-router-dom';
-import { loader as chatLoader } from './components/Chat';
+import { loader as chatLoader } from './components/Home';
 import { action as chatAction } from './components/Chat';
 import Navbar from "./components/Navbar";
 import Home from './components/Home';
 import Chat from './components/Chat';
 import Response from './components/Response';
 import ErrorBoundary from './components/ErrorBoundary';
-
+//errorElement={<ErrorBoundary />}
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path='/' errorElement={<ErrorBoundary />}>
+      <Route path='/' >
         <Route element={(<><Navbar /><Outlet /></>)}>
           <Route
             index
