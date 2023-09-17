@@ -53,13 +53,15 @@ export async function action({ params, request }) {
         dataObj = { message: send };
     }
 
-    const res = await fetch(`https://shirgpt-87dc8f68f3b6.herokuapp.com/chat/${params.name}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(dataObj)
-    });
+    const res = await fetch(
+      `https://shirgpt-87dc8f68f3b6.herokuapp.com/chat/${params.name}/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dataObj)
+      }
+    );
       
     const result = BLOBS_ARR.includes(params.name) ? res.blob() : res.json();
     return result;
