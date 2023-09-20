@@ -13,6 +13,8 @@ import { faShare } from '@fortawesome/free-solid-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import CanvasLoader from './CanvasLoader';
 
+//nginx build: bin/start-nginx-solo
+
 const BLOBS_ARR = [
   "slideshow-creator",
   "personal-project-tool",
@@ -84,7 +86,7 @@ export default function Chat() {
 
   //getting supported langs
   useEffect(() => {
-    fetch('http://localhost:8000/supported-languages/')
+    fetch('https://shirgpt-87dc8f68f3b6.herokuapp.com/supported-languages/')
     .then(res => res.json())
     .then(json => setLangs(json))
   }, []);
