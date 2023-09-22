@@ -8,6 +8,7 @@
     "npm": "8.19.2"
   },
   "scripts": {
+    "main": "./src/main.js",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
