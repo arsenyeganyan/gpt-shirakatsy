@@ -7,7 +7,7 @@ const app = express();
 dotenv.config();
 
 //Build
-app.use('/', express.static(path.join(__dirname, '../client/dist')));
+app.use('/', express.static(path.join(__dirname, './client/dist')));
 app.use(bodyParser.urlencoded({ extended: false }));
 //Errors
 app.use((req, res) => {
