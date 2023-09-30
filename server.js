@@ -10,7 +10,7 @@ dotenv.config();
 app.use('/', express.static(path.join(__dirname, './client/dist')));
 app.use(bodyParser.urlencoded({ extended: false }));
 //Errors
-app.get((req, res) => {
+app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, '/error.html'));
 });
 
