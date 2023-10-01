@@ -265,3 +265,10 @@
         }
     }
 }
+
+@media (max-width: 445px) {
+    .home--catch p{
+        font-size: 10px !important;
+        padding: 1rem !important;
+    }
+}
