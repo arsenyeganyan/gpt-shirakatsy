@@ -122,7 +122,7 @@ export default function Chat() {
       }
       typeWriter(result.message, 0);
     }
-  }, [result])
+  }, [result]);
 
   return (
     <div className='chat--page--container'>

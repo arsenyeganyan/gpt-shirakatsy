@@ -38,7 +38,7 @@ export default function Response() {
             <FontAwesomeIcon icon={icon} style={{fontSize: '50px', color: 'black'}}/>
           </a>
           Click on the icon to download file. 
-          If nothing appears when you do so, try again or contact the developers.
+          If you see nothing inside your file, try again or contact the developers.
         </div>
       ) : name === "image-generator" ? (
             <div>

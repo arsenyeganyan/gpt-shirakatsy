@@ -10,7 +10,7 @@ export default function ErrorBoundary() {
       <div>
         Oops! You have encountered and error. Check the route to fix.
         If nothing changes, try again later
-        or contact the developers at: <span>shirblog2@gmail.com</span>
+        or contact the developers at: <span><a href='https://outlook.office.com/'>shirblog2@gmail.com</a></span>
       </div>
       <Link id='return--home' to="/">Return home</Link>
     </div>
