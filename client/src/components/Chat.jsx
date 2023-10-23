@@ -1,5 +1,5 @@
 import '../styles/Chat.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useReducer } from 'react';
 import {
   Form,
   NavLink,
@@ -48,15 +48,18 @@ export async function action({ params, request }) {
         break;
       case "informatics":
         dataObj = { message: send, lang: progLang };
+        break;
       case "essay-writer":
         dataObj = { title: send, words: words, lang: lang };
         break;
       default:
         dataObj = { message: send };
     }
+    console.log(dataObj);
 
+    console.log(params.name);
     const res = await fetch(
-      `https://shirgpt-87dc8f68f3b6.herokuapp.com/chat/${params.name}/`, {
+      `http://localhost:8000/chat/${params.name}/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -64,22 +67,50 @@ export async function action({ params, request }) {
         body: JSON.stringify(dataObj)
       }
     );
-      
+
+    if(!res.ok) {
+      throw new Error("An error occured: " + res.status);
+    }
+
     const result = BLOBS_ARR.includes(params.name) ? res.blob() : res.json();
+    console.log(result);
     return result;
   } catch(err) {
     console.log(err);
   }
 }
 
+const ACTION_TYPES = {
+  SET_LOADING: "loading",
+  SET_CHECK: "check",
+}
+
+const reducer = (state, action) => {
+  switch(action.type) {
+    case ACTION_TYPES.SET_LOADING:
+      return {
+        ...state,
+        loading: !state.loading
+      }
+    case ACTION_TYPES.SET_CHECK:
+      return {
+        ...state,
+        check: !state.check
+      }
+    default:
+      return state;
+  }
+}
+
 export default function Chat() {
   const { name } = useParams();
 
+  
   const prog = ["C++", "C", "Python", "JavaScript", "Java"];
+
   const [langs, setLangs] = useState({});
-  const [loading, setLoading] = useState(false);
   const [displayText, setDisplayText] = useState('');
-  const [check, setCheck] = useState(false);
+  const [state, dispatch] = useReducer(reducer, { loading: false, check: false });
 
   const data = useLoaderData();
   const result = useActionData();
@@ -109,7 +140,7 @@ export default function Chat() {
 
   //handling loading state and multiline animations
   useEffect(() => {
-    setLoading(false);
+    dispatch({ type: ACTION_TYPES.SET_LOADING });
 
     if(result && (BLOBS_ARR.includes(name) === false) && name !== "image-generator") {
       function typeWriter(text, i) {
@@ -128,12 +159,12 @@ export default function Chat() {
     <div className='chat--page--container'>
       <div className='hamburger--container'>
         <button 
-          onClick={() => setCheck(!check)} 
-          className={check ? 'hb--checked' : 'hb--check'}
+          onClick={() => dispatch({ type: ACTION_TYPES.SET_CHECK })}
+          className={state.check ? 'hb--checked' : 'hb--check'}
         >
           <FontAwesomeIcon icon={faBars} />
         </button>
-        <div className={check ? "sidebar--minimize" : "sidebar--container"}>
+        <div className={state.check ? "sidebar--minimize" : "sidebar--container"}>
           <ul>
             {data.map((model, index) => {
               return model.sections.map((section, index) => (
@@ -161,7 +192,7 @@ export default function Chat() {
                 name='request'
                 required
               />
-              <button type='submit' onClick={() => setLoading(true)}>
+              <button type='submit' onClick={() => dispatch({ type: ACTION_TYPES.SET_LOADING })}>
                 <FontAwesomeIcon icon={faShare} />
               </button>
             </div>
@@ -215,13 +246,13 @@ export default function Chat() {
           </Form>
         </div>
         <div className='response--container'>
-          {loading && (
+          {state.loading && (
             <div className='loading--state'>
               <CanvasLoader />
             </div>
           )}
-          <div className={loading ? "" : "response"}>
-            {(result && !loading) && 
+          <div className={state.loading ? "" : "response"}>
+            {(result && !state.loading) && 
               <Outlet context={{ name, result, displayText, BLOBS_ARR, download }}/>
             }
           </div>

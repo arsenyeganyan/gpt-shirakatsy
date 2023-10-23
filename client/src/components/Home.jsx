@@ -3,7 +3,7 @@ import { Link, useLoaderData } from 'react-router-dom';
 
 export async function loader() {
   try {
-      const res = await fetch('https://shirgpt-87dc8f68f3b6.herokuapp.com/chat/');
+      const res = await fetch('http://localhost:8000/chat/');
       const data = res.json();
       return data;
   } catch(err) {
