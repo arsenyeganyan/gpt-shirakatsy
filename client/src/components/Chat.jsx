@@ -1,5 +1,5 @@
 import '../styles/Chat.css';
-import { useEffect, useState, useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import {
   Form,
   NavLink,
@@ -12,8 +12,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare } from '@fortawesome/free-solid-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import CanvasLoader from './CanvasLoader';
-
-//nginx build: bin/start-nginx-solo
 
 const BLOBS_ARR = [
   "slideshow-creator",
@@ -76,26 +74,44 @@ export async function action({ params, request }) {
     console.log(result);
     return result;
   } catch(err) {
-    console.log(err);
+    console.err(err);
   }
 }
 
 const ACTION_TYPES = {
-  SET_LOADING: "loading",
+  SET_LOADING_TRUE: "loadingTrue",
+  SET_LOADING_FALSE: "loadingFalse",
   SET_CHECK: "check",
+  SET_LANGS: "langs",
+  SET_DISPLAY_TEXT: "displayText",
 }
 
 const reducer = (state, action) => {
   switch(action.type) {
-    case ACTION_TYPES.SET_LOADING:
+    case ACTION_TYPES.SET_LOADING_TRUE:
       return {
         ...state,
-        loading: !state.loading
+        loading: true,
+      }
+    case ACTION_TYPES.SET_LOADING_FALSE:
+      return {
+        ...state,
+        loading: false,
       }
     case ACTION_TYPES.SET_CHECK:
       return {
         ...state,
-        check: !state.check
+        check: !state.check,
+      }
+    case ACTION_TYPES.SET_LANGS:
+      return {
+        ...state,
+        langs: action.payload,
+      }
+    case ACTION_TYPES.SET_DISPLAY_TEXT:
+      return {
+        ...state,
+        displayText: action.payload,
       }
     default:
       return state;
@@ -105,12 +121,16 @@ const reducer = (state, action) => {
 export default function Chat() {
   const { name } = useParams();
 
-  
   const prog = ["C++", "C", "Python", "JavaScript", "Java"];
 
-  const [langs, setLangs] = useState({});
-  const [displayText, setDisplayText] = useState('');
-  const [state, dispatch] = useReducer(reducer, { loading: false, check: false });
+  // const [langs, setLangs] = useState({});
+  // const [displayText, setDisplayText] = useState('');
+  const [state, dispatch] = useReducer(reducer, { 
+    loading: false,
+    check: false,
+    displayText: '',
+    langs: {}
+  });
 
   const data = useLoaderData();
   const result = useActionData();
@@ -119,7 +139,7 @@ export default function Chat() {
   useEffect(() => {
     fetch('https://shirgpt-87dc8f68f3b6.herokuapp.com/supported-languages/')
     .then(res => res.json())
-    .then(json => setLangs(json))
+    .then(json => dispatch({ type: ACTION_TYPES.SET_LANGS, payload: json }))
   }, []);
 
   var download;
@@ -140,12 +160,15 @@ export default function Chat() {
 
   //handling loading state and multiline animations
   useEffect(() => {
-    dispatch({ type: ACTION_TYPES.SET_LOADING });
+    dispatch({ type: ACTION_TYPES.SET_LOADING_FALSE });
 
     if(result && (BLOBS_ARR.includes(name) === false) && name !== "image-generator") {
       function typeWriter(text, i) {
         if(i < text.length) {
-          setDisplayText(text.substring(0, i + 1));
+          dispatch({ 
+            type: ACTION_TYPES.SET_DISPLAY_TEXT, 
+            payload: text.substring(0, i + 1),
+          });
           setTimeout(() => {
             typeWriter(text, i + 1);
           }, 30);
@@ -154,6 +177,9 @@ export default function Chat() {
       typeWriter(result.message, 0);
     }
   }, [result]);
+
+  //for transmitting purposes
+  var displayText = state.displayText;
 
   return (
     <div className='chat--page--container'>
@@ -192,7 +218,10 @@ export default function Chat() {
                 name='request'
                 required
               />
-              <button type='submit' onClick={() => dispatch({ type: ACTION_TYPES.SET_LOADING })}>
+              <button 
+                type='submit' 
+                onClick={() => dispatch({ type: ACTION_TYPES.SET_LOADING_TRUE })}
+              >
                 <FontAwesomeIcon icon={faShare} />
               </button>
             </div>
@@ -203,8 +232,8 @@ export default function Chat() {
                   name === "grammar-correction"))) && (
                     <select name='lang'>
                       <option value="">--Select language--</option>
-                        {langs.supported_languages &&
-                          Object.entries(langs.supported_languages).map(
+                        {state.langs.supported_languages &&
+                          Object.entries(state.langs.supported_languages).map(
                             ([key, value], index) => (
                               <option value={value} key={index}>
                                 {key.charAt(0).toUpperCase() + key.slice(1)}
