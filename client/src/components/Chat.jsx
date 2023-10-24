@@ -57,7 +57,7 @@ export async function action({ params, request }) {
 
     console.log(params.name);
     const res = await fetch(
-      `https://shirgpt-87dc8f68f3b6.herokuapp.com/${params.name}/`, {
+      `https://shirgpt-87dc8f68f3b6.herokuapp.com/chat/${params.name}/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
