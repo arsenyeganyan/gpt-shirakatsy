@@ -74,7 +74,7 @@ export async function action({ params, request }) {
     console.log(result);
     return result;
   } catch(err) {
-    console.err(err);
+    console.error(err);
   }
 }
 
