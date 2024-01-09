@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //Errors
 app.get('*', (req, res) => {
-    res.status(404).sendFile(path.join(__dirname, '/error.html'));
+    res.status(200).sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
 
 app.listen(process.env.PORT || 4000, () => {

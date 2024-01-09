@@ -42,10 +42,10 @@ export default function Response() {
         </div>
       ) : name === "image-generator" ? (
             <div>
-              Get your image by following the 
+              Get your image by following the
               <a 
                 className='image--link' 
-                target='_blank' 
+                target='_blank'
                 href={result.message}
               >
                 link

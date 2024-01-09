@@ -123,8 +123,6 @@ export default function Chat() {
 
   const prog = ["C++", "C", "Python", "JavaScript", "Java"];
 
-  // const [langs, setLangs] = useState({});
-  // const [displayText, setDisplayText] = useState('');
   const [state, dispatch] = useReducer(reducer, { 
     loading: false,
     check: false,
@@ -166,7 +164,7 @@ export default function Chat() {
       function typeWriter(text, i) {
         if(i < text.length) {
           dispatch({ 
-            type: ACTION_TYPES.SET_DISPLAY_TEXT, 
+            type: ACTION_TYPES.SET_DISPLAY_TEXT,
             payload: text.substring(0, i + 1),
           });
           setTimeout(() => {
@@ -174,7 +172,18 @@ export default function Chat() {
           }, 30);
         }
       }
-      typeWriter(result.message, 0);
+
+      if(result.message === "RateLimit") {
+        typeWriter("Rate limit exceeded! You have got a maximum of 3 requests per minute. Please try again later.", 0);
+      }
+
+      else if(result.message === "AllApiIsDisabled") {
+        typeWriter("All access to the service is diabled! Please try again later.", 0);
+      }
+
+      else {
+        typeWriter(result.message, 0);
+      }
     }
   }, [result]);
 
