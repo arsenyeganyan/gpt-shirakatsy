@@ -3,4 +3,17 @@ node_modules
 
 .DS_store
 
+yarn.lock
+package-lock.json
+
 .env
+
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
