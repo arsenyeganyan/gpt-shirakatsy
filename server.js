@@ -7,12 +7,12 @@ const app = express();
 dotenv.config();
 
 //Build
-app.use('/', express.static(path.join(__dirname, './client/dist')));
+app.use(express.static(path.join(__dirname, './client/dist')));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //Errors
-app.get('*', (req, res) => {
-    res.status(200).sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+app.get('/*', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
 });
 
 app.listen(process.env.PORT || 4000, () => {
